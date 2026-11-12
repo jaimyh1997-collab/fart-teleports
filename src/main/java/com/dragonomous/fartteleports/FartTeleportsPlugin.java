@@ -5,7 +5,6 @@ import com.google.inject.Provides;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadLocalRandom;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Actor;
@@ -37,6 +36,8 @@ public class FartTeleportsPlugin extends Plugin
 	 */
 	private static final Set<Integer> TELEPORT_SOUNDS = ImmutableSet.of(
 		198, 200, 201, 204, 965, 984, 1098, 5324, 5350, 6655, 6657);
+
+	private static final String FART_SOUND = "fart.wav";
 
 	/** One teleport can fire several sounds; fart at most once per this many ms. */
 	private static final long FART_COOLDOWN_MS = 1200;
@@ -129,13 +130,6 @@ public class FartTeleportsPlugin extends Plugin
 		}
 		lastFart = now;
 
-		FartSound sound = config.sound();
-		if (sound == FartSound.RANDOM)
-		{
-			FartSound[] all = {FartSound.CLASSIC, FartSound.SQUEAKY, FartSound.RUMBLER};
-			sound = all[ThreadLocalRandom.current().nextInt(all.length)];
-		}
-		String file = sound.getFile();
 		// 100% = full volume, lower percentages are converted to decibels.
 		float gain = (float) (20 * Math.log10(config.volume() / 100.0));
 
@@ -143,11 +137,11 @@ public class FartTeleportsPlugin extends Plugin
 		{
 			try
 			{
-				audioPlayer.play(FartTeleportsPlugin.class, file, gain);
+				audioPlayer.play(FartTeleportsPlugin.class, FART_SOUND, gain);
 			}
 			catch (Exception e)
 			{
-				log.warn("Could not play fart sound {}", file, e);
+				log.warn("Could not play fart sound", e);
 			}
 		});
 	}
