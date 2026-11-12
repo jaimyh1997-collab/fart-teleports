@@ -8,7 +8,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Actor;
-import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
 import net.runelite.api.Player;
 import net.runelite.api.events.AreaSoundEffectPlayed;
@@ -88,7 +87,6 @@ public class FartTeleportsPlugin extends Plugin
 	public void onSoundEffectPlayed(SoundEffectPlayed event)
 	{
 		int id = event.getSoundId();
-		showId("sound", id);
 		if (isTeleportSound(id))
 		{
 			event.consume();
@@ -100,7 +98,6 @@ public class FartTeleportsPlugin extends Plugin
 	public void onAreaSoundEffectPlayed(AreaSoundEffectPlayed event)
 	{
 		int id = event.getSoundId();
-		showId("area sound", id);
 		if (!isTeleportSound(id))
 		{
 			return;
@@ -144,14 +141,6 @@ public class FartTeleportsPlugin extends Plugin
 				log.warn("Could not play fart sound", e);
 			}
 		});
-	}
-
-	private void showId(String kind, int id)
-	{
-		if (config.showSoundIds())
-		{
-			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "Fart Teleports: " + kind + " " + id, null);
-		}
 	}
 
 	private void parseExtraSounds()

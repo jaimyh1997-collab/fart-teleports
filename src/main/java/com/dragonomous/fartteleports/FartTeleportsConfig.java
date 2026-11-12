@@ -36,22 +36,11 @@ public interface FartTeleportsConfig extends Config
 	@ConfigItem(
 		keyName = "extraSoundIds",
 		name = "Extra sound IDs",
-		description = "More sound IDs to turn into farts, separated by commas (find them with 'Show sound IDs')",
+		description = "More sound IDs to turn into farts, separated by commas (see the OSRS wiki's list of sound IDs)",
 		position = 2
 	)
 	default String extraSoundIds()
 	{
 		return "";
-	}
-
-	@ConfigItem(
-		keyName = "showSoundIds",
-		name = "Show sound IDs",
-		description = "Print the ID of every sound you hear in the chat, to find teleports that still make their normal sound",
-		position = 3
-	)
-	default boolean showSoundIds()
-	{
-		return false;
 	}
 }
